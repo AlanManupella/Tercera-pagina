@@ -1,0 +1,141 @@
+<html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>intento de Cronómetro </title>
+  <link rel="preconnect" href="css/estilos.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(0,255,255,0.15);
+      border-radius: 50%;
+      filter: blur(100px);
+      animation: mover 8s infinite alternate;
+    }
+
+    @keyframes mover {
+      from { transform: translate(-150px, -100px); }
+      to { transform: translate(150px, 100px); }
+    }
+
+    .contenedor {
+      position: relative;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      width: 380px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+      color: white;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    #cronometro {
+      font-size: 55px;
+      font-weight: bold;
+      margin: 25px 0;
+      color: white;
+    }
+
+    .botones {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: rgba(255,255,255,0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Cronómetro Pro</h1>
+    <div id="cronometro">00:00:00</div>
+    <div class="botones">
+      <button id="iniciar">Iniciar</button>
+      <button id="detener">Detener</button>
+      <button id="reiniciar">Reiniciar</button>
+    </div>
+  </div>
+  <script>
+    const display = document.getElementById('cronometro');
+    const iniciar = document.getElementById('iniciar');
+    const detener = document.getElementById('detener');
+    const reiniciar = document.getElementById('reiniciar');
+    let intervalId;
+    let tiempo = 0;
+
+    function actualizar() {
+      const horas = String(Math.floor(tiempo / 3600)).padStart(2, '0');
+      const minutos = String(Math.floor((tiempo % 3600) / 60)).padStart(2, '0');
+      const segundos = String(tiempo % 60).padStart(2, '0');
+      display.textContent = `${horas}:${minutos}:${segundos}`;
+    }
+
+    iniciar.addEventListener('click', () => {
+      if (!intervalId) {
+        intervalId = setInterval(() => {
+          tiempo++;
+          actualizar();
+        }, 1000);
+      }
+    });
+
+    detener.addEventListener('click', () => {
+      clearInterval(intervalId);
+      intervalId = null;
+    });
+
+    reiniciar.addEventListener('click', () => {
+      clearInterval(intervalId);
+      intervalId = null;
+      tiempo = 0;
+      actualizar();
+    });
+  </script>
+</body>
+</html>
+ 
+
+
